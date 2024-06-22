@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/test
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/library-system
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
@@ -17,9 +17,11 @@ services:
       - 8080:8080
   db:
     image: postgres:16-alpine
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d/
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=test
+      - POSTGRES_DB=library-system
     ports:
       - 5432:5432
