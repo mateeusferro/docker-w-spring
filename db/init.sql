@@ -1,7 +1,7 @@
 CREATE TABLE authors (
     author_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     author_name VARCHAR(50) NOT NULL,
-    author_bio VARCHAR(500) NULL
+    author_bio VARCHAR(255) NULL
 );
 
 CREATE TABLE books (
@@ -26,5 +26,7 @@ CREATE TABLE borrowings (
     user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE
     ON UPDATE CASCADE,
     borrowing_date DATE NOT NULL,
-    borrowing_return_date DATE NOT NULL
+    borrowing_return_date DATE NOT NULL,
+    borrowing_status VARCHAR(20) NOT NULL,
+    borrowing_returned_date DATE NULL
 );
