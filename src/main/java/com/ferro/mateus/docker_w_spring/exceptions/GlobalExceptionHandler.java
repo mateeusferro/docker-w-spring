@@ -17,52 +17,28 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            MethodArgumentNotValidException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
-        Map<String, List<String>> body = new HashMap<>();
 
-        List<String> errors = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .collect(Collectors.toList());
-
-        body.put("errors", errors);
-
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
-
-    protected ResponseEntity<Object> handleResourceNotFoundException(
-            ResourceNotFoundException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
-        Map<String, String> body = new HashMap<>();
-        body.put("errors", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-    }
-
-    protected ResponseEntity<Object> handleOutOfRangeException(
-            OutOfRangeException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+    @ExceptionHandler({ ResourceNotFoundException.class })
+    public ResponseEntity<Object> handleResourceNotFoundException(
+            ResourceNotFoundException ex, WebRequest request) {
         Map<String, String> body = new HashMap<>();
         body.put("errors", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    protected ResponseEntity<Object> handleIllegalArgumentException(
-            IllegalArgumentException ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+    @ExceptionHandler({ OutOfRangeException.class })
+    public ResponseEntity<Object> handleOutOfRangeException(
+            OutOfRangeException ex, WebRequest request) {
         Map<String, String> body = new HashMap<>();
         body.put("errors", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
 
-    protected ResponseEntity<Object> handleException(
-            Exception ex, HttpHeaders headers,
-            HttpStatus status, WebRequest request) {
+    @ExceptionHandler({ IllegalArgumentException.class })
+    public ResponseEntity<Object> handleIllegalArgumentException(
+            IllegalArgumentException ex, WebRequest request) {
         Map<String, String> body = new HashMap<>();
         body.put("errors", ex.getMessage());
 

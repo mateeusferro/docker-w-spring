@@ -4,6 +4,7 @@ import com.ferro.mateus.docker_w_spring.controller.dtos.APIResponse;
 import com.ferro.mateus.docker_w_spring.controller.dtos.AuthorDTO;
 import com.ferro.mateus.docker_w_spring.controller.dtos.PaginationResponse;
 import com.ferro.mateus.docker_w_spring.domain.entity.Author;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.AuthorService;
 import jakarta.validation.Valid;
@@ -35,8 +36,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Author> find(@PathVariable UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<Author> find(@PathVariable UUID id) {
         return new ResponseEntity<>(authorService.find(id), HttpStatus.OK);
     }
 
@@ -52,8 +52,7 @@ public class AuthorController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Author> update(@PathVariable UUID id,
-                                         @RequestBody @Valid AuthorDTO authorDTO)
-            throws ResourceNotFoundException {
+                                         @RequestBody @Valid AuthorDTO authorDTO) {
         Author author = Author.builder()
                 .id(id)
                 .name(authorDTO.name())
@@ -64,8 +63,7 @@ public class AuthorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
         authorService.delete(id);
         return new ResponseEntity<>("Author deleted", HttpStatus.OK);
     }

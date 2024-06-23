@@ -2,6 +2,7 @@ package com.ferro.mateus.docker_w_spring.service.impl;
 
 import com.ferro.mateus.docker_w_spring.domain.entity.Author;
 import com.ferro.mateus.docker_w_spring.domain.repository.AuthorRepository;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.AuthorService;
 import org.springframework.data.domain.Page;
@@ -22,10 +23,10 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional(readOnly = true)
     public Page<Author> search(Integer page, Integer size) {
         if (page < 0 || size < 0) {
-            throw new IllegalArgumentException("Page or page size must be greater than 0");
+            throw new OutOfRangeException("Page or page size must be greater than 0");
         }
         if (size > 50) {
-            throw new IllegalArgumentException("Page size must be less than 50");
+            throw new OutOfRangeException("Page size must be less than 50");
         }
 
         Pageable pageable = PageRequest.of(page, size);
@@ -33,14 +34,14 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author find(UUID id) throws ResourceNotFoundException {
+    public Author find(UUID id) {
         return authorRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Author not found"));
     }
 
     @Override
     @Transactional
-    public Author create(Author author) throws IllegalArgumentException {
+    public Author create(Author author) {
         return authorRepository.save(author);
     }
 
@@ -53,7 +54,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional
-    public void delete(UUID id) throws ResourceNotFoundException {
+    public void delete(UUID id) {
         authorRepository.delete(this.find(id));
     }
 }

@@ -2,6 +2,7 @@ package com.ferro.mateus.docker_w_spring.service.impl;
 
 import com.ferro.mateus.docker_w_spring.domain.entity.User;
 import com.ferro.mateus.docker_w_spring.domain.repository.UserRepository;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<User> search(Integer page, Integer size) {
+    public Page<User> search(Integer page, Integer size) throws OutOfRangeException {
         if (page < 0 || size < 0) {
-            throw new IllegalArgumentException("Page or page size must be greater than 0");
+            throw new OutOfRangeException("Page or page size must be greater than 0");
         }
         if (size > 50) {
-            throw new IllegalArgumentException("Page size must be less than 50");
+            throw new OutOfRangeException("Page size must be less than 50");
         }
 
         Pageable pageable = PageRequest.of(page, size);
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User find(UUID id) {
+    public User find(UUID id) throws ResourceNotFoundException {
         return userRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("User not found"));
     }

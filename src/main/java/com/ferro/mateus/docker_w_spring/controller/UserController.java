@@ -4,6 +4,7 @@ import com.ferro.mateus.docker_w_spring.controller.dtos.APIResponse;
 import com.ferro.mateus.docker_w_spring.controller.dtos.PaginationResponse;
 import com.ferro.mateus.docker_w_spring.controller.dtos.UserDTO;
 import com.ferro.mateus.docker_w_spring.domain.entity.User;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.UserService;
 import jakarta.validation.Valid;
@@ -35,8 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> find(@RequestParam(value = "id") UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<User> find(@PathVariable UUID id) {
         return new ResponseEntity<>(userService.find(id), HttpStatus.OK);
     }
 
@@ -51,8 +51,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> update(@PathVariable UUID id,
-                                       @RequestBody @Valid UserDTO userDTO)
-            throws ResourceNotFoundException {
+                                       @RequestBody @Valid UserDTO userDTO) {
         User user = User.builder()
                 .id(id)
                 .name(userDTO.name())
@@ -62,8 +61,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
         userService.delete(id);
         return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }

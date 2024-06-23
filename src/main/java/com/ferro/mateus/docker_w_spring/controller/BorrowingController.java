@@ -4,6 +4,7 @@ import com.ferro.mateus.docker_w_spring.controller.dtos.APIResponse;
 import com.ferro.mateus.docker_w_spring.controller.dtos.BorrowingDTO;
 import com.ferro.mateus.docker_w_spring.controller.dtos.PaginationResponse;
 import com.ferro.mateus.docker_w_spring.domain.entity.Borrowing;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.BorrowingService;
 import jakarta.validation.Valid;
@@ -35,8 +36,7 @@ public class BorrowingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Borrowing> find(@RequestParam(value = "id") UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<Borrowing> find(@PathVariable UUID id) {
         return new ResponseEntity<>(borrowingService.find(id), HttpStatus.OK);
     }
 
@@ -46,14 +46,12 @@ public class BorrowingController {
     }
 
     @PutMapping("/give-back/{id}")
-    public ResponseEntity<Borrowing> giveBack(@PathVariable UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<Borrowing> giveBack(@PathVariable UUID id) {
         return new ResponseEntity<>(borrowingService.giveBack(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
         borrowingService.delete(id);
         return new ResponseEntity<>("Borrowing deleted", HttpStatus.OK);
     }

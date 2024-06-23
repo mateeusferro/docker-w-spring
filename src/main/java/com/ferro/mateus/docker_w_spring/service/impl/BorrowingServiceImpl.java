@@ -6,6 +6,7 @@ import com.ferro.mateus.docker_w_spring.domain.entity.Borrowing;
 import com.ferro.mateus.docker_w_spring.domain.entity.User;
 import com.ferro.mateus.docker_w_spring.domain.enums.BorrowingStatus;
 import com.ferro.mateus.docker_w_spring.domain.repository.BorrowingRepository;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.BookService;
 import com.ferro.mateus.docker_w_spring.service.BorrowingService;
@@ -36,10 +37,10 @@ public class BorrowingServiceImpl implements BorrowingService {
     @Transactional(readOnly = true)
     public Page<Borrowing> search(Integer page, Integer size) {
         if (page < 0 || size < 0) {
-            throw new IllegalArgumentException("Page or page size must be greater than 0");
+            throw new OutOfRangeException("Page or page size must be greater than 0");
         }
         if (size > 50) {
-            throw new IllegalArgumentException("Page size must be less than 50");
+            throw new OutOfRangeException("Page size must be less than 50");
         }
 
         Pageable pageable = PageRequest.of(page, size);

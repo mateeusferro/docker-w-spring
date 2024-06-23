@@ -4,6 +4,7 @@ import com.ferro.mateus.docker_w_spring.controller.dtos.APIResponse;
 import com.ferro.mateus.docker_w_spring.controller.dtos.BookDTO;
 import com.ferro.mateus.docker_w_spring.controller.dtos.PaginationResponse;
 import com.ferro.mateus.docker_w_spring.domain.entity.Book;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.BookService;
 import jakarta.validation.Valid;
@@ -35,8 +36,7 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> find(@PathVariable UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<Book> find(@PathVariable UUID id) {
         return new ResponseEntity<>(bookService.find(id), HttpStatus.OK);
     }
 
@@ -47,14 +47,12 @@ public class BookController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> update(@PathVariable UUID id,
-                                       @RequestBody @Valid BookDTO bookDTO)
-            throws ResourceNotFoundException {
+                                       @RequestBody @Valid BookDTO bookDTO) {
         return new ResponseEntity<>(bookService.update(id, bookDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable UUID id)
-            throws ResourceNotFoundException {
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
         bookService.delete(id);
         return new ResponseEntity<>("Book deleted", HttpStatus.OK);
     }

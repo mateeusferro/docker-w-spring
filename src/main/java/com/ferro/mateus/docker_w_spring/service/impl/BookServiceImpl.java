@@ -5,6 +5,7 @@ import com.ferro.mateus.docker_w_spring.domain.entity.Author;
 import com.ferro.mateus.docker_w_spring.domain.entity.Book;
 import com.ferro.mateus.docker_w_spring.domain.enums.BookStatus;
 import com.ferro.mateus.docker_w_spring.domain.repository.BookRepository;
+import com.ferro.mateus.docker_w_spring.exceptions.OutOfRangeException;
 import com.ferro.mateus.docker_w_spring.exceptions.ResourceNotFoundException;
 import com.ferro.mateus.docker_w_spring.service.AuthorService;
 import com.ferro.mateus.docker_w_spring.service.BookService;
@@ -30,10 +31,10 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     public Page<Book> search(Integer page, Integer size) {
         if (page < 0 || size < 0) {
-            throw new IllegalArgumentException("Page or page size must be greater than 0");
+            throw new OutOfRangeException("Page or page size must be greater than 0");
         }
         if (size > 50) {
-            throw new IllegalArgumentException("Page size must be less than 50");
+            throw new OutOfRangeException("Page size must be less than 50");
         }
 
         Pageable pageable = PageRequest.of(page, size);
@@ -48,7 +49,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public Book create(BookDTO bookDTO) throws IllegalArgumentException {
+    public Book create(BookDTO bookDTO) {
         Author author = authorService.find(bookDTO.authorId());
         Book book = Book.builder()
                 .title(bookDTO.title())
