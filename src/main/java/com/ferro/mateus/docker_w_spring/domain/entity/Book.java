@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "author")
+@Table(name = "books")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

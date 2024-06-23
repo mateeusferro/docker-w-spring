@@ -7,7 +7,7 @@ import lombok.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "author")
+@Table(name = "authors")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
