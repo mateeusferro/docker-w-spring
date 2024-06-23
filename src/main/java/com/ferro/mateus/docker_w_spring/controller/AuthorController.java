@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,10 +22,10 @@ public class AuthorController {
     @Autowired
     AuthorService authorService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<APIResponse<Author>> search(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "10") Integer size
+            @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+            @RequestParam(value = "size", defaultValue = "10", required = false) Integer size
     ) {
         Page<Author> authors = authorService.search(page, size);
         return new ResponseEntity<>(
