@@ -1,23 +1,19 @@
 package com.ferro.mateus.docker_w_spring.service;
 
+import com.ferro.mateus.docker_w_spring.controller.dtos.BorrowingDTO;
 import com.ferro.mateus.docker_w_spring.domain.entity.Borrowing;
+import org.springframework.data.domain.Page;
 
-import java.util.List;
 import java.util.UUID;
 
-public interface BorrowingService extends DefaultService<Borrowing> {
-    @Override
-    List<Borrowing> search(Integer page, Integer size);
+public interface BorrowingService {
+    Page<Borrowing> search(Integer page, Integer size);
 
-    @Override
     Borrowing find(UUID id);
 
-    @Override
-    Borrowing create(Borrowing borrowing);
+    Borrowing create(BorrowingDTO borrowing);
 
-    @Override
-    Borrowing update(Borrowing borrowing);
+    Borrowing giveBack(UUID id);
 
-    @Override
     void delete(UUID id);
 }
