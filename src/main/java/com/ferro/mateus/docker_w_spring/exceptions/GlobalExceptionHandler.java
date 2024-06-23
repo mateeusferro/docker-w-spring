@@ -37,7 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             ResourceNotFoundException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         Map<String, String> body = new HashMap<>();
-        body.put("message", ex.getMessage());
+        body.put("errors", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             OutOfRangeException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         Map<String, String> body = new HashMap<>();
-        body.put("message", ex.getMessage());
+        body.put("errors", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
@@ -55,7 +55,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             IllegalArgumentException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
         Map<String, String> body = new HashMap<>();
-        body.put("message", ex.getMessage());
+        body.put("errors", ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
+    protected ResponseEntity<Object> handleException(
+            Exception ex, HttpHeaders headers,
+            HttpStatus status, WebRequest request) {
+        Map<String, String> body = new HashMap<>();
+        body.put("errors", ex.getMessage());
 
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
