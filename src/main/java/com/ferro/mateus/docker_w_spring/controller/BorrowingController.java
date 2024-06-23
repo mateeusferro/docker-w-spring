@@ -22,10 +22,10 @@ public class BorrowingController {
     @Autowired
     private BorrowingService borrowingService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<APIResponse<Borrowing>> search(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "10") Integer size
+            @RequestParam(value = "page", defaultValue = "0", required = false) Integer page,
+            @RequestParam(value = "size", defaultValue = "10", required = false) Integer size
     ) {
         Page<Borrowing> borrowings = borrowingService.search(page, size);
         return new ResponseEntity<>(
