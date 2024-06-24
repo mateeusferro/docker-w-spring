@@ -37,7 +37,7 @@ public class Book {
     @Column(name = "book_published_date")
     private Date publishedDate;
 
-    @NotBlank(message = "Book status is mandatory")
+    @NotNull(message = "Book status is mandatory")
     @Enumerated(EnumType.STRING)
     @Column(name = "book_status")
     private BookStatus status;

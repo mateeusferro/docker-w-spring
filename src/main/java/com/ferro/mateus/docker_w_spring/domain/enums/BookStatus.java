@@ -1,8 +1,15 @@
 package com.ferro.mateus.docker_w_spring.domain.enums;
 
-public enum BookStatus {
-    BORROWED("Borrowed"), AVAILABLE("Available");
+import lombok.Getter;
 
-    BookStatus(String borrowed) {
+@Getter
+public enum BookStatus {
+    BORROWED("Borrowed"),
+    AVAILABLE("Available");
+
+    private final String status;
+
+    BookStatus(String status) {
+        this.status = status;
     }
 }

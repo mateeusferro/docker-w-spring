@@ -42,7 +42,7 @@ public class Borrowing {
     @Column(name = "borrowing_return_date")
     private Date returnDate;
 
-    @NotBlank(message = "Borrowing status is mandatory")
+    @NotNull(message = "Borrowing status is mandatory")
     @Enumerated(EnumType.STRING)
     @Column(name = "borrowing_status")
     private BorrowingStatus status;
