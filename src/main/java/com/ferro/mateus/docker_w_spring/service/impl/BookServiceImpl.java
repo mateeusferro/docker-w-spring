@@ -55,7 +55,6 @@ public class BookServiceImpl implements BookService {
                 .title(bookDTO.title())
                 .author(author)
                 .publishedDate(bookDTO.publishedDate())
-                .status(BookStatus.AVAILABLE)
                 .build();
         return bookRepository.save(book);
     }
@@ -86,7 +85,7 @@ public class BookServiceImpl implements BookService {
                 .title(bookDTO.title())
                 .author(author)
                 .publishedDate(bookDTO.publishedDate())
-                .status(bookDTO.status())
+                .status(oldBook.getStatus())
                 .build();
         return bookRepository.save(book);
     }
